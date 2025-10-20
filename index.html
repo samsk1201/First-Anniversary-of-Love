@@ -8,10 +8,32 @@
 	</head>
 
 	<body style="margin:0px">
-		<audio autoplay loop>
-			<source src="music/Amar De Nuevo.mp3" type="audio/mpeg">
-			Your browser does not support the audio.
-		</audio>
+		<audio id="bgm" src="./music/Amar-De-Nuevo.mp3" preload="auto" loop></audio>
+
+<button id="playBtn" type="button">Play music</button>
+
+<script>
+  const audio = document.getElementById('bgm');
+  const btn = document.getElementById('playBtn');
+
+  async function startAudio() {
+    try {
+      await audio.play();
+      btn.style.display = 'none';      // hide once it starts
+    } catch (err) {
+      console.warn('Audio play failed:', err);
+    }
+  }
+
+  // Start on first user gesture (works on desktop + mobile/iOS)
+  ['click', 'touchstart', 'keydown'].forEach(ev => {
+    window.addEventListener(ev, startAudio, { once: true });
+  });
+
+  // Also let the button start it explicitly
+  btn.addEventListener('click', startAudio);
+</script>
+
 		<canvas></canvas>
 		<div id="imgTxt">
 			<span id="Txt"></span> <br />
